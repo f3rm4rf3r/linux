@@ -1,6 +1,7 @@
 /dts-v1/;
-
-#include "bcm2710.dtsi"
+#include "bcm2837.dtsi"
+#include "bcm2835-rpi.dtsi"
+#include "bcm283x-rpi-usb-host.dtsi"
 #include "bcm283x-rpi-lan7515.dtsi"
 
 / {
@@ -8,7 +9,20 @@
 	model = "Raspberry Pi 3 Model B+";
 
 	chosen {
+		/* Enable internal 8250 UART */
 		bootargs = "8250.nr_uarts=1";
+		/* 8250 auxiliary UART instead of pl011 */
+		stdout-path = "serial1:115200n8";
+	};
+
+	memory {
+		reg = <0 0x40000000>;
+	};
+
+	leds {
+		act {
+			gpios = <&gpio 47 0>;
+		};
 	};
 
 	aliases {
